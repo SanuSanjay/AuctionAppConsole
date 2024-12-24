@@ -1,0 +1,5 @@
+create a header file for account creation
+1. Take function arguments as username and confirmed username and verify they are the same(32 characters max size)
+2. Do the same with password.
+3. Add parameters for passwords such as there must be a capital letter, a number and a special character such as  _ , ! , # etc.
+4. Once both tasks are completed return success.
