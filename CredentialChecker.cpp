@@ -15,31 +15,48 @@ char CredentialVerifier::validSize(std::string* username, std::string* password,
 	return 'V';
 }
 
+bool CredentialVerifier::errormsg(char msg) {
+	switch (msg) {
+	case 'E':
+		std::cout << "Username and password too long" << '\n';
+		return false;
+
+	case 'U':
+		std::cout << "Username too long" << '\n';
+		return false;
+
+	case 'P':
+		std::cout << "Password too long" << '\n';
+		return false;
+
+	case 'V':
+		//Username and password meet the constraints
+		return true;
+	}
+}
+
 bool CredentialVerifier::validPassword(const std::string& password) {
 	bool isNum = false, isCaps = false, isSpecial = false;
+
 	for (char c : password) {
 		if (std::isdigit(c)) {
 			isNum = true;
-			break;
 		}
-	}
-	for (char c : password) {
 		if (std::isupper(c)) {
 			isCaps = true;
-			break;
 		}
-	}
-	for (char c : password) {
 		if (!std::isalnum(c)) {
 			isSpecial = true;
-			break;
 		}
 	}
 
-	if (isNum == false || isCaps == false || isSpecial == false) {
+	if (isNum && isCaps && isSpecial) {
+		return true;
+	}
+	else {
+		std::cout << "Password must contain at least one number, one uppercase letter, and one special character" << '\n';
 		return false;
 	}
-	return true;
 }
 
 
