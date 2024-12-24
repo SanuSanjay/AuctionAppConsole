@@ -34,8 +34,11 @@ using std::getline;
   */
 
 
+<<<<<<< HEAD
 const int MaxSize = 32;
-
+=======
+const int MaxSize = 3;
+>>>>>>> 73cebe6c57bf3b580ca2d6c2dc68dd2079d5f2cf
 
 class RegisteredUserDetails {
 private:
@@ -61,13 +64,14 @@ public:
 	void PrintContents();
 };
 
-string AuctionPaintings::Append() {
-	cout << "Hello chat" << '\n';
-}
+//string AuctionPaintings::Append() {
+//	cout << "Hello chat" << '\n';
+//}
+//
+//void AuctionPaintings::PrintContents() {
+//	cout << "hello chat" << '\n';
+//}
 
-void AuctionPaintings::PrintContents() {
-	cout << "hello chat" << '\n';
-}
 
 
  string RegisteredUserDetails :: AccountRegistration(){
@@ -87,25 +91,8 @@ void AuctionPaintings::PrintContents() {
 	 cout << "Password : ";  getline( cin, *Reg_Password);
 
 	 char msg = verify.validSize(Reg_UserName, Reg_Password, MaxSize);
-	 
-	 switch (msg) {
-	 case 'E':
-		 cout << "Username and password too long" << '\n';
+	 if (!verify.errormsg(msg)) {
 		 goto acc_creation;
-		 break;
-
-	 case 'U' :
-		 cout << "Username too long" << '\n';
-		 goto acc_creation;
-		 break;
-
-	 case 'P':
-		 cout << "Password too long" << '\n';
-		 goto acc_creation;
-		 break;
-
-	 case 'V' :
-		 break;
 	 }
 
 	 bool test = verify.validPassword(*Reg_Password);
@@ -123,7 +110,7 @@ void AuctionPaintings::PrintContents() {
 
  string RegisteredUserDetails::AccountLogin() {
 	int attempts = 5;
-	CredentialVerifier obj;
+	 CredentialVerifier obj;
 	 string result;
 	 string* tempUser = new  string[MaxSize];
 	 string* tempPass = new  string[MaxSize];
@@ -139,24 +126,10 @@ void AuctionPaintings::PrintContents() {
 	 cout << '\n';
 	 cout << "Verifying Credentials ......" << '\n';
 
-	 switch (msg) {
-	 case 'E':
-		 cout << "Username and password too long" << '\n';
-		 break;
-
-	 case 'U':
-		 cout << "Username too long" << '\n';
-		 break;
-
-	 case 'P':
-		 cout << "Password too long" << '\n';
-		 break;
-	 case 'V':
-		 break;
+	 if (!obj.errormsg(msg)) {
+		 goto verification;
 	 }
 
-	 
-	 
 
 	if (obj.CredentialChecker(Reg_UserName, Reg_Password, tempUser, tempPass) == true) {
 		 cout << "Login Credentials are valid! Logging into your account" << '\n';
