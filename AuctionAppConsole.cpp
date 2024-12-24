@@ -60,6 +60,7 @@ public:
 	void PrintContents();
 };
 
+
 //string AuctionPaintings::Append() {
 //	cout << "Hello chat" << '\n';
 //}
