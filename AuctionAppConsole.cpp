@@ -1,6 +1,8 @@
 
 #include "CredentialVerifier.h"
 #include<string.h>
+#include<fstream>
+
 
 using std::cout;
 using std::cin;
@@ -46,13 +48,26 @@ public:
 
 
 class AuctionPaintings {
-protected :
+protected:
 	struct Painting {
 		string PaintingName;
 		float price;
-	};
+		bool currentBid;
+		bool isBoughtOut;
+		Painting* link;
+	}first;
+public:
+	string Append();
+	void PrintContents();
 };
 
+string AuctionPaintings::Append() {
+	cout << "Hello chat" << '\n';
+}
+
+void AuctionPaintings::PrintContents() {
+	cout << "hello chat" << '\n';
+}
 
 
  string RegisteredUserDetails :: AccountRegistration(){
