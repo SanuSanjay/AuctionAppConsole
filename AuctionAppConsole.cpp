@@ -33,8 +33,8 @@ using std::getline;
   6.Exit the program when all tasks are complete
   */
 
-
 const int MaxSize = 32;
+
 
 class RegisteredUserDetails {
 private:
