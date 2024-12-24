@@ -34,7 +34,11 @@ using std::getline;
   */
 
 
+<<<<<<< HEAD
 const int MaxSize = 32;
+=======
+const int MaxSize = 3;
+>>>>>>> 73cebe6c57bf3b580ca2d6c2dc68dd2079d5f2cf
 
 class RegisteredUserDetails {
 private:
