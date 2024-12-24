@@ -33,12 +33,8 @@ using std::getline;
   6.Exit the program when all tasks are complete
   */
 
-
-<<<<<<< HEAD
 const int MaxSize = 32;
-=======
-const int MaxSize = 3;
->>>>>>> 73cebe6c57bf3b580ca2d6c2dc68dd2079d5f2cf
+
 
 class RegisteredUserDetails {
 private:
@@ -63,6 +59,7 @@ public:
 	string Append();
 	void PrintContents();
 };
+
 
 //string AuctionPaintings::Append() {
 //	cout << "Hello chat" << '\n';
