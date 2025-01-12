@@ -127,14 +127,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AuctionAppConsole.cpp" />
+    <ClCompile Include="AuctionApp.cpp" />
+    <ClCompile Include="Paintings.cpp" />
+    <ClCompile Include="Reg_And_Login.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="CredentialChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="All_Includes.h" />
+    <ClInclude Include="AuctionApp.h" />
     <ClInclude Include="CredentialVerifier.h" />
+    <ClInclude Include="Paintings.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="accountcreation.txt" />
+    <Text Include="FeaturesToAdd.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ListedPaintings.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

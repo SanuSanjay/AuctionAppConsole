@@ -1,0 +1,10 @@
+1.Change the auctionapp.cpp completely by removing the account registration and login from there.
+ ->Reg_And_Login.cpp(completed)
+
+2.Rename the auctionapp.cpp to main.cpp to make this file responsible only for calling and running the apps functions. (comepleted)
+
+3.Create a new .cpp file called auctionapp.cpp in which the users name and money are shown. (completed)
+
+4.In the same file allow the user to bid and buyout paintings.
+
+5.New .cpp file for adding paintings of their own to the listings to sell and make money.

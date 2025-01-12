@@ -15,10 +15,19 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AuctionAppConsole.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CredentialChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Reg_And_Login.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AuctionApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Paintings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,10 +35,27 @@
     <ClInclude Include="CredentialVerifier.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AuctionApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Paintings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="All_Includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Text Include="FeaturesToAdd.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
     <Text Include="accountcreation.txt">
       <Filter>Resource Files</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ListedPaintings.txt">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
