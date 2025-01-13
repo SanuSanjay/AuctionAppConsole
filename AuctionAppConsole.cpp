@@ -33,7 +33,6 @@ using std::getline;
   6.Exit the program when all tasks are complete
   */
 
-
 const int MaxSize = 32;
 
 
@@ -62,6 +61,15 @@ public:
 };
 
 
+//string AuctionPaintings::Append() {
+//	cout << "Hello chat" << '\n';
+//}
+//
+//void AuctionPaintings::PrintContents() {
+//	cout << "hello chat" << '\n';
+//}
+
+
 
  string RegisteredUserDetails :: AccountRegistration(){
 	CredentialVerifier verify;
@@ -80,25 +88,8 @@ public:
 	 cout << "Password : ";  getline( cin, *Reg_Password);
 
 	 char msg = verify.validSize(Reg_UserName, Reg_Password, MaxSize);
-	 
-	 switch (msg) {
-	 case 'E':
-		 cout << "Username and password too long" << '\n';
+	 if (!verify.errormsg(msg)) {
 		 goto acc_creation;
-		 break;
-
-	 case 'U' :
-		 cout << "Username too long" << '\n';
-		 goto acc_creation;
-		 break;
-
-	 case 'P':
-		 cout << "Password too long" << '\n';
-		 goto acc_creation;
-		 break;
-
-	 case 'V' :
-		 break;
 	 }
 
 	 bool test = verify.validPassword(*Reg_Password);
@@ -116,7 +107,7 @@ public:
 
  string RegisteredUserDetails::AccountLogin() {
 	int attempts = 5;
-	CredentialVerifier obj;
+	 CredentialVerifier obj;
 	 string result;
 	 string* tempUser = new  string[MaxSize];
 	 string* tempPass = new  string[MaxSize];
@@ -132,24 +123,10 @@ public:
 	 cout << '\n';
 	 cout << "Verifying Credentials ......" << '\n';
 
-	 switch (msg) {
-	 case 'E':
-		 cout << "Username and password too long" << '\n';
-		 break;
-
-	 case 'U':
-		 cout << "Username too long" << '\n';
-		 break;
-
-	 case 'P':
-		 cout << "Password too long" << '\n';
-		 break;
-	 case 'V':
-		 break;
+	 if (!obj.errormsg(msg)) {
+		 goto verification;
 	 }
 
-	 
-	 
 
 	if (obj.CredentialChecker(Reg_UserName, Reg_Password, tempUser, tempPass) == true) {
 		 cout << "Login Credentials are valid! Logging into your account" << '\n';
