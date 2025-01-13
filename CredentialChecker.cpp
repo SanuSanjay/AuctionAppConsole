@@ -2,14 +2,14 @@
 #include "CredentialVerifier.h"
 
 
-char CredentialVerifier::validSize(std::string* username, std::string* password, int size) {
-	if (username->length() > size && password ->length() > size) {
+char CredentialVerifier::validSize(std::string username, std::string password, int size) {
+	if (username.length() > size && password .length() > size) {
 		return 'E';
 	}
-	if (username->length() > size) {
-		return 'U';
+	if (username.length() > size) {
+		return 'U'; 
 	}
-	if (password->length() > size) {
+	if (password.length() > size) {
 		return 'P';
 	}
 	return 'V';
@@ -60,10 +60,10 @@ bool CredentialVerifier::validPassword(const std::string& password) {
 }
 
 
-bool CredentialVerifier::CredentialChecker(std::string* oUser, std::string* oPass, std::string* Iuser, std::string* Ipass)
+bool CredentialVerifier::CredentialChecker(std::string oUser, std::string oPass, std::string Iuser, std::string Ipass)
 {
 	bool LoginSuccess = false;
-	if (*oUser == *Iuser && *oPass == *Ipass) {
+	if (oUser == Iuser && oPass == Ipass) {
 		LoginSuccess = true;
 	}
 	else {
