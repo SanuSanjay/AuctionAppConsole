@@ -10,6 +10,8 @@
 #include<string.h>
 #include<new>
 #include<vector>
+#include<thread>
+#include<chrono>
 
 using std::cout;
 using std::cin;

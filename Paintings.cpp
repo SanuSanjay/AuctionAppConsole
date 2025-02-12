@@ -1,9 +1,10 @@
 
-#include "Paintings.h"
+#include "AuctionApp.h"
 
 
-//Default constructor which stores the first 5 paintings of the app
-ListedPaintings::ListedPaintings() {
+//Function which stores the first 5 default paintings of the app
+void ListedPaintings::DefaultPainting() {
+	index = 5;
 	Paintings.push_back("Mona Lisa");
 	Artists.push_back("Leonardo Da Vinci");
 	Prices.push_back(100000);
@@ -25,8 +26,10 @@ ListedPaintings::ListedPaintings() {
 	Prices.push_back(164500);
 
 	bidPercentageBump = 0.15;
-	buyoutPercentageBump = 0.40;
+	buyoutPercentageBump = 0.50;
 	index = 5;
+	userIndex = 0;
+	//PrintPaintings();
 }
 
 void ListedPaintings::PrintPaintings() {
@@ -34,7 +37,9 @@ void ListedPaintings::PrintPaintings() {
 		cout << (i+1) <<".";
 		cout << "Painting : " << Paintings[i] << '\n';
 		cout << "Artist : " << Artists[i] << '\n';
-		cout << "Price : " << Prices[i] << '\n';
+		cout << "Starting Bid Price : " << Prices[i] << '\n';
+		cout << "Buyout Price : " << Prices[i] + Prices[i] * buyoutPercentageBump << '\n';
 		cout << '\n';
+		//system("pause > 0");
 	}
 }

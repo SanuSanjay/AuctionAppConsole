@@ -33,6 +33,7 @@ bool CredentialVerifier::errormsg(char msg) {
 		//Username and password meet the constraints
 		return true;
 	}
+	return false;
 }
 
 bool CredentialVerifier::validPassword(const std::string& password) {

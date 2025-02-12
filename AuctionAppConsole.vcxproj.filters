@@ -38,9 +38,6 @@
     <ClInclude Include="AuctionApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Paintings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="All_Includes.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -137,7 +137,6 @@
     <ClInclude Include="All_Includes.h" />
     <ClInclude Include="AuctionApp.h" />
     <ClInclude Include="CredentialVerifier.h" />
-    <ClInclude Include="Paintings.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="accountcreation.txt" />

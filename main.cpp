@@ -1,7 +1,6 @@
 
 #include "CredentialVerifier.h"
 #include "AuctionApp.h"
-#include "Paintings.h"
 
 /*1.Welcome Screen
   -> Need to press enter to continue
@@ -25,21 +24,18 @@
 
 
 
-
-
 int main() {
-	 RegisteredUserDetails obj;
-	 ListedPaintings Paint{};
-	 UserAccDetails* User = &obj;
-	 AuctionApp Auction{};
+    RegisteredUserDetails obj;
+    obj.AccountRegistration();
 
-	 obj.AccountRegistration();
-	 
-	 User->DisplayUserInfo();
+    ListedPaintings Paint(&obj);
+    AuctionApp Auction(&obj,&Paint);
 
-	 Paint.PrintPaintings();
-	 
+    Auction.DisplayUserInfo();
 
-	return 0;
+    Paint.DefaultPainting();
+    Paint.PrintPaintings();
+    Auction.functionToProcess();
+
+    return 0;
 }
-
