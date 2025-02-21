@@ -38,6 +38,9 @@ public:
 	vector<double> PriceBought;
 	int userIndex;
 
+	// To check if the painting exists when buying
+	vector<string> Painting_In_Cart;
+
 	//stores the percentage bump for bid and buyout
 	double bidPercentageBump;
 	double buyoutPercentageBump;
@@ -62,12 +65,15 @@ public:
 	void DisplayUserInfo() const;
 	void AddMoney();
 	bool BalanceCheck(double);
-	string addToCart();
-	string InitialBid();
+	string AddToCart();
+	string BuyFromCart();
+	void UpdateCart(int);
+	bool PaintingAvailable();
+	string InitialBid(int);
 	bool BidSuccess(int);
 	int ConsecutiveBid(int);
 	void UpdateListings(int);
-	string Buyout();
+	string Buyout(int);
 	string AddListing();
 };
 

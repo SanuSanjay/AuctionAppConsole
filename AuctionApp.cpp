@@ -3,13 +3,20 @@
 
 namespace tracker {
 	int counter = 3;
-	double totalBidAmount = 0;
+	int cartIndex = 0;
+	vector<int> ListingIndex;
+	double totalPaintingAmount = 0;
+
 	static void resetCounter() {
 		counter = 3;
 	}
-	static void resetTotalBidAmount() {
-		totalBidAmount = 0;
+	static void resetTotalPaintingAmount() {
+		totalPaintingAmount = 0;
 	}
+	static void correctIndices() {
+		ListingIndex.erase(ListingIndex.begin() + cartIndex - 1);
+		cartIndex -= 1;
+	} 
 }
 
 void AuctionApp::DisplayUserInfo() const {
@@ -33,14 +40,17 @@ void AuctionApp::DisplayUserInfo() const {
 
 
 void AuctionApp::functionToProcess() {
+choice:
 	cout << "Enter the number corresponding to the action you want to perform" << '\n';
 	cout << "0. To print paintings listed for auction" << '\n';
 	cout << "1. Print your current account details" << '\n';
 	cout << "2. Add money to wallet" << '\n';
 	cout << "3. Bid on a painting" << '\n';
-	cout << "4. Buyout a painting " << '\n';
-	cout << "5. List a painting" << '\n';
-	cout << "6. Exit the program" << '\n';
+	cout << "4. Buyout a painting" << '\n';
+	cout << "5. Add painting to cart" << '\n';
+	cout << "6. To buy paintings in the cart" << '\n';
+	cout << "7. List a painting" << '\n';
+	cout << "8. Exit the program" << '\n';
 
 	int choice;
 	cin >> choice;
@@ -59,20 +69,27 @@ void AuctionApp::functionToProcess() {
 		AddMoney();
 		break;
 	case 3:
-		InitialBid();
+		InitialBid(-1);
 		break;
 	case 4:
-		Buyout();
+		Buyout(-1);
 		break;
 	case 5:
-		AddListing();
+		AddToCart();
 		break;
 	case 6:
-		exit(0);
+		BuyFromCart();
 		break;
+	case 7:
+		AddListing();
+		break;
+	case 8:
+		cout << "Program terminated! " << '\n';
+		exit(0);
 	default:
 		cout << "Invalid choice" << '\n';
-		system("pause");
+		cout << "Re-enter the number" << '\n';
+		goto choice;
 	}
 }
 
@@ -88,12 +105,17 @@ void AuctionApp::AddMoney() {
 }
 
 
-string AuctionApp::InitialBid() {
+string AuctionApp::InitialBid(int cart) {
 bid:
 	int bidchoice; char choice;
 	cout << "Your current account balance is : " << MoneyBalance << '\n';
-	cout << "Enter the number corresponding to the painting you want to bid on : ";
-	cin >> bidchoice;
+	if (cart == -1) {
+		cout << "Enter the number corresponding to the painting you want to bid on : ";
+		cin >> bidchoice;
+	}
+	else {
+		bidchoice = tracker::ListingIndex[cart - 1];
+	}
 
 	if (bidchoice > paintings->index || bidchoice <= 0) {
 		cout << "Invalid choice! Please re-enter your choice" << '\n';
@@ -113,8 +135,8 @@ bid:
 		}
 
 		else {
-			tracker::totalBidAmount = paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(bidchoice) - 1];
-			MoneyBalance -= tracker::totalBidAmount;
+			tracker::totalPaintingAmount = paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(bidchoice) - 1];
+			MoneyBalance -= tracker::totalPaintingAmount;
 			cout << "Bid placed successfully" << '\n';
 			cout << "Your current balance is : " << MoneyBalance << '\n';
 			cout << '\n';
@@ -165,9 +187,9 @@ bool AuctionApp::BidSuccess(int paintingIndex) {
 		}
 		else {
 			cout << "Bid cancelled" << '\n';
-			MoneyBalance += tracker::totalBidAmount;
+			MoneyBalance += tracker::totalPaintingAmount;
 			cout << "Amount withdrawn and added to your wallet" << '\n';
-			tracker::resetTotalBidAmount();
+			tracker::resetTotalPaintingAmount();
 			cout << "Your current balance is : " << MoneyBalance << '\n';
 			functionToProcess();
 			return false;
@@ -180,15 +202,15 @@ bool AuctionApp::BidSuccess(int paintingIndex) {
 int AuctionApp::ConsecutiveBid(int index) {
 retry:
 	char choice;
-	cout << "Amount to be paid as extra bid : " << tracker::totalBidAmount * paintings->bidPercentageBump << '\n';
+	cout << "Amount to be paid as extra bid : " << tracker::totalPaintingAmount * paintings->bidPercentageBump << '\n';
 	cout << "Proceed with the bid? (Y/N) : ";
 	cin >> choice;
 
 	while (tracker::counter >= 0)
 		if (choice == 'Y' || choice == 'y') {
-			if (BalanceCheck(tracker::totalBidAmount)) {
-				MoneyBalance -= tracker::totalBidAmount * paintings->bidPercentageBump;
-				tracker::totalBidAmount += tracker::totalBidAmount * paintings->bidPercentageBump;
+			if (BalanceCheck(tracker::totalPaintingAmount)) {
+				MoneyBalance -= tracker::totalPaintingAmount * paintings->bidPercentageBump;
+				tracker::totalPaintingAmount += tracker::totalPaintingAmount * paintings->bidPercentageBump;
 				cout << "Bid placed successfully" << '\n';
 				cout << "Your current balance is : " << MoneyBalance << '\n';
 				tracker::counter--;
@@ -198,8 +220,8 @@ retry:
 		else if (choice == 'N' || choice == 'n') {
 			cout << "Bid cancelled" << '\n';
 			cout << "Amount withdrawn and added to your wallet" << '\n';
-			MoneyBalance += tracker::totalBidAmount;
-			tracker::resetTotalBidAmount();
+			MoneyBalance += tracker::totalPaintingAmount;
+			tracker::resetTotalPaintingAmount();
 			cout << '\n';
 			functionToProcess();
 		}
@@ -215,7 +237,7 @@ bool AuctionApp::BalanceCheck(double bidAmount) {
 	if ((bidAmount * paintings->bidPercentageBump) > MoneyBalance) {
 		cout << "Insufficient balance! Please add money to your wallet" << '\n';
 		cout << "Bid amount withdrawn and added to your wallet" << '\n';
-		MoneyBalance += tracker::totalBidAmount;
+		MoneyBalance += tracker::totalPaintingAmount;
 		functionToProcess();
 		return false;
 	}
@@ -224,14 +246,25 @@ bool AuctionApp::BalanceCheck(double bidAmount) {
 	}
 }
 
-string AuctionApp::Buyout() {
+string AuctionApp::Buyout(int cart) {
 buyout:
-	int bidchoice; char choice;
-	cout << "Your current account balance is : " << MoneyBalance << '\n';
-	cout << "Enter the number corresponding to the painting you want buyout : ";
-	cin >> bidchoice;
+	int buyoutChoice = 0; char choice;
+	if (cart == -1) {
+		cout << "Your current account balance is : " << MoneyBalance << '\n';
+		cout << "Enter the number corresponding to the painting you want buyout : ";
+		cin >> buyoutChoice;
+	}
 
-	double totalAmount = paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(bidchoice) - 1] + paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(bidchoice) - 1] * paintings->buyoutPercentageBump;
+	if (cart > 0) {
+		buyoutChoice = tracker::ListingIndex[cart - 1];
+	}
+
+	if (buyoutChoice > paintings->Prices.size() || buyoutChoice <= 0) {
+		cout << "Index Out Of Bound! " << '\n';
+		return "Index out of bound";
+	}
+
+	double totalAmount = paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(buyoutChoice) - 1] + paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(buyoutChoice) - 1] * paintings->buyoutPercentageBump;
 
 	cout << "The amount to be paid of the painting is :" << totalAmount << '\n';
 	cout << "Do you want to proceed with the buyout? (Y/N) : ";
@@ -252,7 +285,8 @@ buyout:
 			cout << "The painting will be added to your collection" << '\n';
 			cout << "Current Money balance is : " << MoneyBalance << '\n';
 			cout << '\n';
-			UpdateListings(bidchoice);
+			tracker::totalPaintingAmount = totalAmount;
+			UpdateListings(buyoutChoice);
 			functionToProcess();
 			return "completed";
 		}
@@ -271,6 +305,117 @@ buyout:
 	}
 	return "success";
 }
+
+string AuctionApp::AddToCart() {
+	int temp;
+	cout << "To add paintings to your cart choose the corresponding number to it :" << '\n';
+	cin >> temp;
+
+	if (temp <= 0 || temp > paintings->index) {
+		cout << "Index out of bound!" << '\n';
+		return "Index out of bound";
+	}
+
+	tracker::ListingIndex.push_back(temp);
+	paintings->Painting_In_Cart.push_back(paintings->Paintings[static_cast<std::vector<std::string>::size_type>(temp) - 1]);
+	cartItems += 1;
+	tracker::cartIndex += 1;
+
+	cout << "Painting added to cart successfully!" << '\n';
+	functionToProcess();
+	return "success";
+}
+
+string AuctionApp::BuyFromCart() {
+start:
+	int index, choice;
+	cout << "Paintings in your cart are: " << '\n';
+
+	if (tracker::cartIndex == 0) {
+		cout << "Cart is empty, please add an item or continue with other functions " << '\n';
+		functionToProcess();
+	}
+
+	for (int i = 0; i < tracker::cartIndex; i++) {
+		cout << i + 1 << ". " << paintings->Painting_In_Cart[i] << '\n';
+	}
+
+	cout << "Enter the index for the painting to be bought from the cart: " << '\n';
+	cin >> index;
+
+	if (index <= 0 || index > tracker::cartIndex) {
+		cout << "Index out of bound, please try again!" << '\n';
+		goto start;
+	}
+
+	cout << "Checking if the painting is still listed " << '\n';
+	std::this_thread::sleep_for(std::chrono::seconds(5));
+
+	if (PaintingAvailable()) {
+		cout << "Enter 1 to bid for the painting " << '\n';
+		cout << "Enter 2 to buyout the painting " << '\n';
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			if (InitialBid(index) == "completed") {
+				//UpdateCart needs fixing
+				UpdateCart(index);
+				return "success";
+			}
+			break;
+		case 2:
+			if (Buyout(index) == "completed") {
+				//UpdateCart needs fixing
+				UpdateCart(index);
+				return "success";
+			}
+			break;
+		default:
+			cout << "Invalid Option! " << '\n';
+			goto start;
+			return "failed";
+		}
+	}
+	else {
+		cout << "Painting has already been bought by someone else!" << '\n';
+		cout << "Removing item from the cart " << '\n';
+		//This call works for some reason
+		UpdateCart(index);
+		goto start;
+		return "failed";
+	}
+	return "failed";
+}
+
+void AuctionApp::UpdateCart(int index) {
+	if (index <= 0 || index > tracker::cartIndex) {
+		cout << "Invalid index for updating cart" << '\n';
+		return;
+	}
+
+	paintings->Painting_In_Cart.erase(paintings->Painting_In_Cart.begin() + index - 1);
+	tracker::ListingIndex.erase(tracker::ListingIndex.begin() + index - 1);
+	cartItems -= 1;
+	tracker::cartIndex -= 1;
+}
+
+
+bool AuctionApp::PaintingAvailable() {
+	if (tracker::cartIndex <= 0 || tracker::cartIndex > paintings->Painting_In_Cart.size()) {
+		return false;
+	}
+
+	int cartIndex = tracker::cartIndex - 1; // Use a valid index
+	int listingIndex = tracker::ListingIndex[cartIndex] - 1; // Use a valid index
+
+	if (listingIndex < 0 || listingIndex >= paintings->Paintings.size()) {
+		return false;
+	}
+
+	return paintings->Painting_In_Cart[cartIndex] == paintings->Paintings[listingIndex];
+}
+
 
 string AuctionApp::AddListing() {
 	string painting;
@@ -298,9 +443,9 @@ void AuctionApp::UpdateListings(int index) {
 	//Adding the painting to the list of paintings bought by the user
 	paintings->Users_Paintings.push_back(paintings->Paintings[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(index) - 1]);
 	paintings->User_Artists.push_back(paintings->Artists[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(index) - 1]);
-	paintings->PriceBought.push_back(tracker::totalBidAmount);
+	paintings->PriceBought.push_back(tracker::totalPaintingAmount);
 
-	tracker::resetTotalBidAmount();
+	tracker::resetTotalPaintingAmount();
 
 	//Removing the painting from the list of paintings
 	paintings->Artists.erase(paintings->Artists.begin() + index - 1);
