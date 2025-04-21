@@ -47,8 +47,8 @@ public:
 	int index;
 
 	//Default constructor
-	ListedPaintings() {};
-	ListedPaintings(RegisteredUserDetails* user) : userDetails(user) {}
+	ListedPaintings() : userDetails(nullptr), userIndex(0), bidPercentageBump(0.15), buyoutPercentageBump(0.50), index(5) {}
+	ListedPaintings(RegisteredUserDetails* user) : userDetails(user), userIndex(0), bidPercentageBump(0.15), buyoutPercentageBump(0.50), index(5) {}
 
 	//Function to store the default paintings
 	void DefaultPainting();
@@ -68,12 +68,12 @@ public:
 	string AddToCart();
 	string BuyFromCart();
 	void UpdateCart(int);
-	bool PaintingAvailable();
-	string InitialBid(int);
-	bool BidSuccess(int);
-	int ConsecutiveBid(int);
+	bool PaintingAvailable(int);
+	string InitialBid(int,bool);
+	bool BidSuccess(int,bool);
+	int ConsecutiveBid(int,bool);
 	void UpdateListings(int);
-	string Buyout(int);
+	string Buyout(int,bool);
 	string AddListing();
 };
 

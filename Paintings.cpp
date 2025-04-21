@@ -3,8 +3,8 @@
 
 
 //Function which stores the first 5 default paintings of the app
-void ListedPaintings::DefaultPainting() {
-	index = 5;
+ void ListedPaintings::DefaultPainting() {
+
 	Paintings.push_back("Mona Lisa");
 	Artists.push_back("Leonardo Da Vinci");
 	Prices.push_back(100000);
@@ -25,10 +25,7 @@ void ListedPaintings::DefaultPainting() {
 	Artists.push_back("Jackson Pollock");
 	Prices.push_back(164500);
 
-	bidPercentageBump = 0.15;
-	buyoutPercentageBump = 0.50;
-	index = 5;
-	userIndex = 0;
+	
 	//PrintPaintings();
 }
 

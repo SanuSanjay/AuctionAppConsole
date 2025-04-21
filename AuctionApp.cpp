@@ -3,7 +3,7 @@
 
 namespace tracker {
 	int counter = 3;
-	int cartIndex = 0;
+	int cartItems = 0;
 	vector<int> ListingIndex;
 	double totalPaintingAmount = 0;
 
@@ -14,8 +14,8 @@ namespace tracker {
 		totalPaintingAmount = 0;
 	}
 	static void correctIndices() {
-		ListingIndex.erase(ListingIndex.begin() + cartIndex - 1);
-		cartIndex -= 1;
+		ListingIndex.erase(ListingIndex.begin() + cartItems - 1);
+		cartItems-= 1;
 	} 
 }
 
@@ -69,10 +69,10 @@ choice:
 		AddMoney();
 		break;
 	case 3:
-		InitialBid(-1);
+		InitialBid(-1,false);
 		break;
 	case 4:
-		Buyout(-1);
+		Buyout(-1,false);
 		break;
 	case 5:
 		AddToCart();
@@ -105,7 +105,7 @@ void AuctionApp::AddMoney() {
 }
 
 
-string AuctionApp::InitialBid(int cart) {
+string AuctionApp::InitialBid(int cart,bool isCartItem) {
 bid:
 	int bidchoice; char choice;
 	cout << "Your current account balance is : " << MoneyBalance << '\n';
@@ -140,7 +140,7 @@ bid:
 			cout << "Bid placed successfully" << '\n';
 			cout << "Your current balance is : " << MoneyBalance << '\n';
 			cout << '\n';
-			BidSuccess(bidchoice);
+			BidSuccess(bidchoice, isCartItem);
 			cout << '\n'; cout << '\n';
 			functionToProcess();
 			return "completed";
@@ -163,7 +163,7 @@ bid:
 
 
 
-bool AuctionApp::BidSuccess(int paintingIndex) {
+bool AuctionApp::BidSuccess(int paintingIndex,bool isCartItem) {
 	char choice; int attempts = 3;
 	cout << "Waiting for the auction to end ......" << '\n';
 	std::this_thread::sleep_for(std::chrono::seconds(5));
@@ -183,7 +183,7 @@ bool AuctionApp::BidSuccess(int paintingIndex) {
 		cout << "Proceed with the bid? (Y/N) : ";
 		cin >> choice;
 		if (choice == 'Y' || choice == 'y') {
-			ConsecutiveBid(paintingIndex);
+			ConsecutiveBid(paintingIndex, isCartItem);
 		}
 		else {
 			cout << "Bid cancelled" << '\n';
@@ -199,7 +199,7 @@ bool AuctionApp::BidSuccess(int paintingIndex) {
 }
 
 
-int AuctionApp::ConsecutiveBid(int index) {
+int AuctionApp::ConsecutiveBid(int index, bool isCartItem) {
 retry:
 	char choice;
 	cout << "Amount to be paid as extra bid : " << tracker::totalPaintingAmount * paintings->bidPercentageBump << '\n';
@@ -214,7 +214,7 @@ retry:
 				cout << "Bid placed successfully" << '\n';
 				cout << "Your current balance is : " << MoneyBalance << '\n';
 				tracker::counter--;
-				BidSuccess(index);
+				BidSuccess(index, isCartItem);
 			}
 		}
 		else if (choice == 'N' || choice == 'n') {
@@ -246,7 +246,7 @@ bool AuctionApp::BalanceCheck(double bidAmount) {
 	}
 }
 
-string AuctionApp::Buyout(int cart) {
+string AuctionApp::Buyout(int cart, bool isCartItem) {
 buyout:
 	int buyoutChoice = 0; char choice;
 	if (cart == -1) {
@@ -286,9 +286,13 @@ buyout:
 			cout << "Current Money balance is : " << MoneyBalance << '\n';
 			cout << '\n';
 			tracker::totalPaintingAmount = totalAmount;
+			if (isCartItem) {
+				UpdateCart(buyoutChoice);
+				UpdateListings(buyoutChoice);
+			}
 			UpdateListings(buyoutChoice);
-			functionToProcess();
 			return "completed";
+			
 		}
 	}
 
@@ -318,8 +322,8 @@ string AuctionApp::AddToCart() {
 
 	tracker::ListingIndex.push_back(temp);
 	paintings->Painting_In_Cart.push_back(paintings->Paintings[static_cast<std::vector<std::string>::size_type>(temp) - 1]);
-	cartItems += 1;
-	tracker::cartIndex += 1;
+	tracker::cartItems += 1;
+	
 
 	cout << "Painting added to cart successfully!" << '\n';
 	functionToProcess();
@@ -331,43 +335,47 @@ start:
 	int index, choice;
 	cout << "Paintings in your cart are: " << '\n';
 
-	if (tracker::cartIndex == 0) {
+	if (tracker::cartItems == 0) {
 		cout << "Cart is empty, please add an item or continue with other functions " << '\n';
 		functionToProcess();
 	}
 
-	for (int i = 0; i < tracker::cartIndex; i++) {
+	for (int i = 0; i < tracker::cartItems; i++) {
 		cout << i + 1 << ". " << paintings->Painting_In_Cart[i] << '\n';
 	}
 
 	cout << "Enter the index for the painting to be bought from the cart: " << '\n';
 	cin >> index;
 
-	if (index <= 0 || index > tracker::cartIndex) {
+	if (index <= 0 || index > tracker::cartItems) {
 		cout << "Index out of bound, please try again!" << '\n';
 		goto start;
 	}
 
 	cout << "Checking if the painting is still listed " << '\n';
-	std::this_thread::sleep_for(std::chrono::seconds(5));
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 
-	if (PaintingAvailable()) {
+	if (PaintingAvailable(index)) {
 		cout << "Enter 1 to bid for the painting " << '\n';
 		cout << "Enter 2 to buyout the painting " << '\n';
 		cin >> choice;
 
 		switch (choice) {
 		case 1:
-			if (InitialBid(index) == "completed") {
-				//UpdateCart needs fixing
+			if (InitialBid(index,true) == "completed") {
+				//UpdateCart needs 
 				UpdateCart(index);
+				UpdateListings(index);
+				functionToProcess();
 				return "success";
 			}
 			break;
 		case 2:
-			if (Buyout(index) == "completed") {
+			if (Buyout(index,true) == "completed") {
 				//UpdateCart needs fixing
 				UpdateCart(index);
+				UpdateListings(index);
+				functionToProcess();
 				return "success";
 			}
 			break;
@@ -389,31 +397,36 @@ start:
 }
 
 void AuctionApp::UpdateCart(int index) {
-	if (index <= 0 || index > tracker::cartIndex) {
+	if (index <= 0 || index > tracker::cartItems) {
 		cout << "Invalid index for updating cart" << '\n';
 		return;
 	}
 
 	paintings->Painting_In_Cart.erase(paintings->Painting_In_Cart.begin() + index - 1);
-	tracker::ListingIndex.erase(tracker::ListingIndex.begin() + index - 1);
-	cartItems -= 1;
-	tracker::cartIndex -= 1;
+	tracker::correctIndices();
 }
 
 
-bool AuctionApp::PaintingAvailable() {
-	if (tracker::cartIndex <= 0 || tracker::cartIndex > paintings->Painting_In_Cart.size()) {
+bool AuctionApp::PaintingAvailable(int index) {
+	if (tracker::cartItems <= 0 || tracker::cartItems > paintings->Painting_In_Cart.size()) {
 		return false;
 	}
 
-	int cartIndex = tracker::cartIndex - 1; // Use a valid index
-	int listingIndex = tracker::ListingIndex[cartIndex] - 1; // Use a valid index
+	int cartIndex = tracker::cartItems - 1; // Use a valid index
+	//int listingIndex = tracker::ListingIndex[cartIndex] - 1; // Use a valid index
 
-	if (listingIndex < 0 || listingIndex >= paintings->Paintings.size()) {
+	/*if (listingIndex < 0 || listingIndex >= paintings->Paintings.size()) {
 		return false;
-	}
+	}*/
 
-	return paintings->Painting_In_Cart[cartIndex] == paintings->Paintings[listingIndex];
+	for (int i = 0; i < paintings->Paintings.size(); i++) {
+		if (paintings->Painting_In_Cart[cartIndex] == paintings->Paintings[i]) {
+			return true;
+		}
+	}	
+
+	//return paintings->Painting_In_Cart[cartIndex] == paintings->Paintings[listingIndex];
+	return false;
 }
 
 
@@ -452,5 +465,7 @@ void AuctionApp::UpdateListings(int index) {
 	paintings->Paintings.erase(paintings->Paintings.begin() + index - 1);
 	paintings->Prices.erase(paintings->Prices.begin() + index - 1);
 	paintings->index--;
+
+	functionToProcess();
 }
 
