@@ -463,16 +463,11 @@ bool AuctionApp::PaintingAvailable(int index)
 		return false;
 	}
 
-	int cartIndex = tracker::cartItems - 1; // Use a valid index
-	//int listingIndex = tracker::ListingIndex[cartIndex] - 1; // Use a valid index
-
-	/*if (listingIndex < 0 || listingIndex >= paintings->Paintings.size()) {
-		return false;
-	}*/
+	//int cartIndex = tracker::cartItems - 1; // Use a valid index
 
 	for (int i = 0; i < paintings->Paintings.size(); i++) 
 	{
-		if (paintings->Painting_In_Cart[cartIndex] == paintings->Paintings[i]) 
+		if (paintings->Painting_In_Cart[index-1] == paintings->Paintings[i]) 
 		{
 			return true;
 		}
