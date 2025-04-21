@@ -4,7 +4,8 @@
 #include "All_Includes.h"
 
 
-class CredentialVerifier {
+class CredentialVerifier 
+{
 public :
 	char validSize(std::string username, std::string password, int size);
 	bool errormsg(char msg);

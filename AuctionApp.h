@@ -4,7 +4,8 @@
 #include "All_Includes.h"
 
 
-class UserAccDetails  {
+class UserAccDetails  
+{
 public:
 	string Reg_UserName;
 	string Reg_Password;
@@ -14,7 +15,8 @@ public:
 };
 
 
-class RegisteredUserDetails : public UserAccDetails{
+class RegisteredUserDetails : public UserAccDetails
+{
 public:
 	const int MaxSize = 32;
 	void accDetailStorer(string user, string pass);
@@ -24,7 +26,8 @@ public:
 	string getRegPass() const { return Reg_Password; } //Allows the objects of different classes to get user info
 };
 
-class ListedPaintings {
+class ListedPaintings 
+{
 public:
 	RegisteredUserDetails* userDetails;
 	//stores the information of the paintings listed
@@ -55,7 +58,8 @@ public:
 	void PrintPaintings();
 };
 
-class AuctionApp : public UserAccDetails {
+class AuctionApp : public UserAccDetails 
+{
 public:
 	RegisteredUserDetails* userDetails;
 	ListedPaintings* paintings;

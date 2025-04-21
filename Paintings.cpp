@@ -3,7 +3,8 @@
 
 
 //Function which stores the first 5 default paintings of the app
- void ListedPaintings::DefaultPainting() {
+ void ListedPaintings::DefaultPainting() 
+ {
 
 	Paintings.push_back("Mona Lisa");
 	Artists.push_back("Leonardo Da Vinci");
@@ -29,8 +30,10 @@
 	//PrintPaintings();
 }
 
-void ListedPaintings::PrintPaintings() {
-	for (int i = 0; i < index; i++) {
+void ListedPaintings::PrintPaintings() 
+{
+	for (int i = 0; i < index; i++) 
+	{
 		cout << (i+1) <<".";
 		cout << "Painting : " << Paintings[i] << '\n';
 		cout << "Artist : " << Artists[i] << '\n';

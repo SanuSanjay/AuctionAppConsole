@@ -24,7 +24,8 @@
 
 
 
-int main() {
+int main() 
+{
     RegisteredUserDetails obj;
     obj.AccountRegistration();
 

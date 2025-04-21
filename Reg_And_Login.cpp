@@ -5,7 +5,8 @@
 #include "CredentialVerifier.h"
 
 
-string RegisteredUserDetails :: AccountRegistration() {
+string RegisteredUserDetails :: AccountRegistration() 
+{
 	CredentialVerifier verify;
 	string username;
 	string password;
@@ -21,7 +22,8 @@ acc_creation:
 	cout << "Password : ";  getline(cin, password);
 
 	char msg = verify.validSize(username, password, MaxSize);
-	if (!verify.errormsg(msg)) {
+	if (!verify.errormsg(msg)) 
+	{
 		goto acc_creation;
 	}
 
@@ -39,13 +41,15 @@ acc_creation:
 
 }
 
-void RegisteredUserDetails::accDetailStorer(string user, string pass) {
+void RegisteredUserDetails::accDetailStorer(string user, string pass) 
+{
 	Reg_UserName = user;
 	Reg_Password = pass;
 	AccountLogin();
 }
 
-string RegisteredUserDetails::AccountLogin() const { 
+string RegisteredUserDetails::AccountLogin() const 
+{ 
 	UserAccDetails user;
 	int attempts = 5;
 	CredentialVerifier obj;
@@ -64,23 +68,24 @@ verification:
 	cout << '\n';
 	cout << "Verifying Credentials ......" << '\n';
 
-	if (!obj.errormsg(msg)) {
-		goto verification;
-	}
+	if (!obj.errormsg(msg)) {goto verification;}
 
 
-	if (obj.CredentialChecker(Reg_UserName, Reg_Password, tempUser, tempPass) == true) {
+	if (obj.CredentialChecker(Reg_UserName, Reg_Password, tempUser, tempPass) == true) 
+	{
 		cout << "Login Credentials are valid! Logging into your account" << '\n';
 		cout << '\n';
 		result = "success";
 	}
 
-	else {
+	else 
+	{
 		cout << "Login Credentials are not valid!" << '\n';
 		cout << attempts-- << " attempts remaining" << '\n';
 		cout << '\n';
 
-		if (attempts == 0) {
+		if (attempts == 0) 
+		{
 			cout << "Login failed, too many failed attempts!" << '\n'; result = "failed";
 			return result;
 		}
