@@ -298,7 +298,10 @@ buyout:
 		return "Index out of bound";
 	}
 
-	double totalAmount = paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(buyoutChoice) - 1] + paintings->Prices[static_cast<std::vector<double, std::allocator<double>>::size_type>(buyoutChoice) - 1] * paintings->buyoutPercentageBump;
+	auto index = buyoutChoice - 1;
+
+	double basePrice = paintings->Prices[index];
+	double totalAmount = basePrice + (basePrice * paintings->buyoutPercentageBump);
 
 	cout << "The amount to be paid of the painting is :" << totalAmount << '\n';
 	cout << "Do you want to proceed with the buyout? (Y/N) : ";
@@ -503,17 +506,19 @@ string AuctionApp::AddListing()
 void AuctionApp::UpdateListings(int index) 
 {
 
+	const size_t vector_Index = static_cast<size_t>(index - 1);
+
 	//Adding the painting to the list of paintings bought by the user
-	paintings->Users_Paintings.push_back(paintings->Paintings[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(index) - 1]);
-	paintings->User_Artists.push_back(paintings->Artists[static_cast<std::vector<std::string, std::allocator<std::string>>::size_type>(index) - 1]);
+	paintings->Users_Paintings.push_back(paintings->Paintings[vector_Index]);
+	paintings->User_Artists.push_back(paintings->Artists[vector_Index]);
 	paintings->PriceBought.push_back(tracker::totalPaintingAmount);
 
 	tracker::resetTotalPaintingAmount();
 
 	//Removing the painting from the list of paintings
-	paintings->Artists.erase(paintings->Artists.begin() + index - 1);
-	paintings->Paintings.erase(paintings->Paintings.begin() + index - 1);
-	paintings->Prices.erase(paintings->Prices.begin() + index - 1);
+	paintings->Artists.erase(paintings->Artists.begin() + vector_Index);
+	paintings->Paintings.erase(paintings->Paintings.begin() + vector_Index);
+	paintings->Prices.erase(paintings->Prices.begin() + vector_Index);
 	paintings->index--;
 
 	functionToProcess();
