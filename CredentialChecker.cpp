@@ -2,7 +2,7 @@
 #include "CredentialVerifier.h"
 
 
-char CredentialVerifier::validSize(std::string username, std::string password, int size) 
+char CredentialVerifier::valid_size(std::string username, std::string password, int size) 
 {
 	if (username.length() > size && password .length() > size) 
 	{
@@ -19,9 +19,9 @@ char CredentialVerifier::validSize(std::string username, std::string password, i
 	return 'V';
 }
 
-bool CredentialVerifier::errormsg(char msg) 
+bool CredentialVerifier::error_message(char message) 
 {
-	switch (msg) 
+	switch (message) 
 	{
 	case 'E':
 		std::cout << "Username and password too long" << '\n';
@@ -42,7 +42,7 @@ bool CredentialVerifier::errormsg(char msg)
 	return false;
 }
 
-bool CredentialVerifier::validPassword(const std::string& password) 
+bool CredentialVerifier::valid_password(const std::string& password) 
 {
 	bool isNum = false, isCaps = false, isSpecial = false;
 
@@ -74,10 +74,10 @@ bool CredentialVerifier::validPassword(const std::string& password)
 }
 
 
-bool CredentialVerifier::CredentialChecker(std::string oUser, std::string oPass, std::string Iuser, std::string Ipass)
+bool CredentialVerifier::credential_checker(std::string original_user, std::string original_password, std::string username_input, std::string password_input)
 {
 	bool LoginSuccess = false;
-	if (oUser == Iuser && oPass == Ipass) 
+	if (original_user == username_input && original_password == password_input) 
 	{
 		LoginSuccess = true;
 	}
