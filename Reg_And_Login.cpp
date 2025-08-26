@@ -5,7 +5,7 @@
 #include "CredentialVerifier.h"
 
 
-string RegisteredUserDetails :: AccountRegistration() 
+string RegisteredUserDetails :: account_registration() 
 {
 	CredentialVerifier verify;
 	string username;
@@ -21,17 +21,17 @@ acc_creation:
 	cout << "Username : ";  getline(cin, username);
 	cout << "Password : ";  getline(cin, password);
 
-	char msg = verify.validSize(username, password, MaxSize);
-	if (!verify.errormsg(msg)) 
+	char msg = verify.valid_size(username, password, max_size_c);
+	if (!verify.error_message(msg)) 
 	{
 		goto acc_creation;
 	}
 
-	bool isValid = verify.validPassword(password);
+	bool isValid = verify.valid_password(password);
 
 	if (isValid) {
 		cout << setw(90) << right << setfill(' ') << "Your account was successfully created,Please login to the new account" << '\n';
-		accDetailStorer(username , password);
+		account_detail_storer(username , password);
 		return "success";
 	}
 	else
@@ -41,37 +41,37 @@ acc_creation:
 
 }
 
-void RegisteredUserDetails::accDetailStorer(string user, string pass) 
+void RegisteredUserDetails::account_detail_storer(string user, string pass) 
 {
-	Reg_UserName = user;
-	Reg_Password = pass;
-	AccountLogin();
+	reg_username_ = user;
+	reg_password_ = pass;
+	account_login();
 }
 
-string RegisteredUserDetails::AccountLogin() const 
+string RegisteredUserDetails::account_login() const 
 { 
 	UserAccDetails user;
 	int attempts = 5;
 	CredentialVerifier obj;
 	string result;
-	string tempUser;
-	string tempPass;
+	string temp_user;
+	string temp_pass;
 
 verification:
 	cout << "Enter your Username and password to use the app :" << '\n';
 
-	getline(cin, tempUser);
-	getline(cin, tempPass);
+	getline(cin, temp_user);
+	getline(cin, temp_pass);
 
-	char msg = obj.validSize(tempUser, tempPass, MaxSize);
+	char msg = obj.valid_size(temp_user, temp_pass, max_size_c);
 
 	cout << '\n';
 	cout << "Verifying Credentials ......" << '\n';
 
-	if (!obj.errormsg(msg)) {goto verification;}
+	if (!obj.error_message(msg)) {goto verification;}
 
 
-	if (obj.CredentialChecker(Reg_UserName, Reg_Password, tempUser, tempPass) == true) 
+	if (obj.credential_checker(reg_username_, reg_password_, temp_user, temp_pass) == true) 
 	{
 		cout << "Login Credentials are valid! Logging into your account" << '\n';
 		cout << '\n';

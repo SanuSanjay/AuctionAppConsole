@@ -3,43 +3,26 @@
 
 
 //Function which stores the first 5 default paintings of the app
- void ListedPaintings::DefaultPainting() 
+ void ListedPaintings::default_paintings() 
  {
 
-	Paintings.push_back("Mona Lisa");
-	Artists.push_back("Leonardo Da Vinci");
-	Prices.push_back(100000);
-
-	Paintings.push_back("Interchange");
-	Artists.push_back("Willem de Kooning");
-	Prices.push_back(300000);
-
-	Paintings.push_back("The Card Players");
-	Artists.push_back("Paul Cézanne");
-	Prices.push_back(173000);
-
-	Paintings.push_back("When Will You Marry?");
-	Artists.push_back("Paul Gauguin");
-	Prices.push_back(235000);
-
-	Paintings.push_back("Number 17A");
-	Artists.push_back("Jackson Pollock");
-	Prices.push_back(164500);
-
+	 painting_info_.emplace_back(PaintingsInfo{ "Mona Lisa", "Leonardo Da Vinci", 100000 });
+	 painting_info_.emplace_back(PaintingsInfo{ "Interchange", "Willem de Kooning", 300000 });
+	 painting_info_.emplace_back(PaintingsInfo{ "The Card Players", "Paul Cézanne", 173000 });
+	 painting_info_.emplace_back(PaintingsInfo{ "When Will You Marry?", "Paul Gauguin", 235000 });
+	 painting_info_.emplace_back(PaintingsInfo{ "Number 17A", "Jackson Pollock", 164500 });
 	
-	//PrintPaintings();
 }
 
-void ListedPaintings::PrintPaintings() 
+void ListedPaintings::print_paintings() 
 {
 	for (int i = 0; i < index; i++) 
 	{
 		cout << (i+1) <<".";
-		cout << "Painting : " << Paintings[i] << '\n';
-		cout << "Artist : " << Artists[i] << '\n';
-		cout << "Starting Bid Price : " << Prices[i] << '\n';
-		cout << "Buyout Price : " << Prices[i] + Prices[i] * buyoutPercentageBump << '\n';
+		cout << "Painting : " << painting_info_[i].painting_name << '\n';
+		cout << "Artist : " << painting_info_[i].artist_name << '\n';
+		cout << "Starting Bid Price : " << painting_info_[i].price << '\n';
+		cout << "Buyout Price : " << painting_info_[i].price + painting_info_[i].price * buyout_percentage_bump_ << '\n';
 		cout << '\n';
-		//system("pause > 0");
 	}
 }

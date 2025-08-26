@@ -7,10 +7,10 @@
 class CredentialVerifier 
 {
 public :
-	char validSize(std::string username, std::string password, int size);
-	bool errormsg(char msg);
-	bool validPassword(const std::string& password);
-	bool CredentialChecker(std::string oUser, std::string oPass, std::string Iuser, std::string Ipass);
+	char valid_size(std::string username, std::string password, int size);
+	bool error_message(char msg);
+	bool valid_password(const std::string& password);
+	bool credential_checker(std::string oUser, std::string oPass, std::string Iuser, std::string Ipass);
 };
 
 #endif // !CREDENTIAL_VERIFIER_H
