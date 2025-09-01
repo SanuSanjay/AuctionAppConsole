@@ -9,7 +9,7 @@ class UserAccDetails
 public:
 	string reg_username_;
 	string reg_password_;
-	double money_balance_ = 0;
+	float money_balance_ = 0;
 	int cart_items_ = 0, listed = 0;
 	int owned_items_ = 0;
 };
@@ -19,6 +19,7 @@ class RegisteredUserDetails : public UserAccDetails
 {
 public:
 	const int max_size_c = 32;
+	const int min_size_c = 6;
 	void account_detail_storer(string user, string pass);
 	string account_registration();
 	string account_login() const;
@@ -30,16 +31,16 @@ struct PaintingsInfo
 {
 	string painting_name;
 	string artist_name;
-	double price;
+	float price;
 };
 
 struct UserOwnedPaintings
 {
 	string painting_name;
 	string artist_name;
-	double price_paid;
+	float price_paid;
 
-	UserOwnedPaintings(const string& p, const string& a, double price)
+	UserOwnedPaintings(const string& p, const string& a, float price)
 		: painting_name(p), artist_name(a), price_paid(price) {
 	}
 };
@@ -58,12 +59,12 @@ public:
 	vector<string> painting_in_cart_;
 
 	//stores the percentage bump for bid and buyout
-	double bid_percentage_bump_;
-	double buyout_percentage_bump_;
+	float bid_percentage_bump_;
+	float buyout_percentage_bump_;
 	int index;
 
 	//constructor
-	ListedPaintings(RegisteredUserDetails* user) : user_details(user), bid_percentage_bump_(0.15), buyout_percentage_bump_(0.50), index(5) {}
+	ListedPaintings(RegisteredUserDetails* user) : user_details(user), bid_percentage_bump_(0.15f), buyout_percentage_bump_(0.50f), index(5) {}
 
 	//Function to store the default paintings
 	void default_paintings();
@@ -80,7 +81,7 @@ public:
 	void function_to_process();
 	void display_user_info() const;
 	void add_money();
-	bool balance_check(double);
+	bool balance_check(float);
 	string add_to_cart();
 	string buy_from_cart();
 	void update_cart(int);
@@ -91,7 +92,10 @@ public:
 	void update_listings(int);
 	string buyout(int);
 	string add_listings();
+	void validate_option(int&);
+	void validate_input(float&);
 };
+
 
 
 #endif

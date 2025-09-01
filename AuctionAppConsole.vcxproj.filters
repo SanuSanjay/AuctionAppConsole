@@ -15,19 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CredentialChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Reg_And_Login.cpp">
+    <ClCompile Include="RegAndLogin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AuctionApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Paintings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExceptionHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include "CredentialVerifier.h"
 
 
-string RegisteredUserDetails :: account_registration() 
+string RegisteredUserDetails::account_registration()
 {
 	CredentialVerifier verify;
 	string username;
@@ -15,14 +15,14 @@ string RegisteredUserDetails :: account_registration()
 
 acc_creation:
 	cout << setw(89) << right << setfill(' ') << "Enter a username and password to register your account " << '\n';
-	cout << setw(75) << right << setfill(' ') << "The maximum length for each is 32 " << '\n';
-	cout << setw(95) << right << setfill(' ') << "The password must contain a capital letter, number and a special character " << '\n';
+	cout << setw(106) << right << setfill(' ') << "The minimum length for the username and password is 6 and the maximum length for each is 32 " << '\n';
+	cout << setw(98) << right << setfill(' ') << "The password must contain a capital letter, number and a special character " << '\n';
 
 	cout << "Username : ";  getline(cin, username);
 	cout << "Password : ";  getline(cin, password);
 
-	char msg = verify.valid_size(username, password, max_size_c);
-	if (!verify.error_message(msg)) 
+	char msg = verify.valid_size(username, password, max_size_c, min_size_c);
+	if (!verify.error_message(msg))
 	{
 		goto acc_creation;
 	}
@@ -31,7 +31,7 @@ acc_creation:
 
 	if (is_valid) {
 		cout << setw(90) << right << setfill(' ') << "Your account was successfully created,Please login to the new account" << '\n';
-		account_detail_storer(username , password);
+		account_detail_storer(username, password);
 		return "success";
 	}
 	else
@@ -41,15 +41,15 @@ acc_creation:
 
 }
 
-void RegisteredUserDetails::account_detail_storer(string user, string pass) 
+void RegisteredUserDetails::account_detail_storer(string user, string pass)
 {
 	reg_username_ = user;
 	reg_password_ = pass;
 	account_login();
 }
 
-string RegisteredUserDetails::account_login() const 
-{ 
+string RegisteredUserDetails::account_login() const
+{
 	UserAccDetails user;
 	int attempts = 5;
 	CredentialVerifier obj;
@@ -63,28 +63,28 @@ verification:
 	getline(cin, temp_user);
 	getline(cin, temp_pass);
 
-	char msg = obj.valid_size(temp_user, temp_pass, max_size_c);
+	char msg = obj.valid_size(temp_user, temp_pass, max_size_c, min_size_c);
 
 	cout << '\n';
 	cout << "Verifying Credentials ......" << '\n';
 
-	if (!obj.error_message(msg)) {goto verification;}
+	if (!obj.error_message(msg)) { goto verification; }
 
 
-	if (obj.credential_checker(reg_username_, reg_password_, temp_user, temp_pass) == true) 
+	if (obj.credential_checker(reg_username_, reg_password_, temp_user, temp_pass) == true)
 	{
 		cout << "Login Credentials are valid! Logging into your account" << '\n';
 		cout << '\n';
 		result = "success";
 	}
 
-	else 
+	else
 	{
 		cout << "Login Credentials are not valid!" << '\n';
 		cout << attempts-- << " attempts remaining" << '\n';
 		cout << '\n';
 
-		if (attempts == 0) 
+		if (attempts == 0)
 		{
 			cout << "Login failed, too many failed attempts!" << '\n'; result = "failed";
 			return result;

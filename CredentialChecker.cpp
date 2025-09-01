@@ -2,20 +2,18 @@
 #include "CredentialVerifier.h"
 
 
-char CredentialVerifier::valid_size(std::string username, std::string password, int size) 
+char CredentialVerifier::valid_size(std::string username, std::string password, int max_size, int min_size) 
 {
-	if (username.length() > size && password .length() > size) 
+	if (username.length() > max_size && password .length() > max_size) 
 	{
-		return 'E';
+		return 'L'; // username or password are too long
 	}
-	if (username.length() > size) 
+
+	if (username.length() < min_size || password.length() < min_size) 
 	{
-		return 'U'; 
+		return 'S'; // username or password are too short
 	}
-	if (password.length() > size) 
-	{
-		return 'P';
-	}
+
 	return 'V';
 }
 
@@ -23,17 +21,12 @@ bool CredentialVerifier::error_message(char message)
 {
 	switch (message) 
 	{
-	case 'E':
-		std::cout << "Username and password too long" << '\n';
+	case 'L':
+		std::cout << "\nUsername or password too long" << '\n';
 		return false;
 
-	case 'U':
-		std::cout << "Username too long" << '\n';
-		return false;
-
-	case 'P':
-		std::cout << "Password too long" << '\n';
-		return false;
+	case 'S':
+		std::cout << "\nUsername and password must be at least 6 characters long" << '\n';
 
 	case 'V':
 		//Username and password meet the constraints
@@ -69,6 +62,7 @@ bool CredentialVerifier::valid_password(const std::string& password)
 	else 
 	{
 		std::cout << "Password must contain at least one number, one uppercase letter, and one special character" << '\n';
+		std::cout << "Minimum lenght lenght of password is 6 characters and maximum for username and password is 32 characters" << '\n';
 		return false;
 	}
 }
