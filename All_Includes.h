@@ -12,6 +12,8 @@
 #include<vector>
 #include<thread>
 #include<chrono>
+#include<exception>
+#include<limits>
 
 using std::cout;
 using std::cin;

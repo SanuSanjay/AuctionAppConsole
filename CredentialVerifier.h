@@ -7,7 +7,7 @@
 class CredentialVerifier 
 {
 public :
-	char valid_size(std::string username, std::string password, int size);
+	char valid_size(std::string username, std::string password, int max_size, int min_size);
 	bool error_message(char msg);
 	bool valid_password(const std::string& password);
 	bool credential_checker(std::string oUser, std::string oPass, std::string Iuser, std::string Ipass);

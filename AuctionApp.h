@@ -19,6 +19,7 @@ class RegisteredUserDetails : public UserAccDetails
 {
 public:
 	const int max_size_c = 32;
+	const int min_size_c = 6;
 	void account_detail_storer(string user, string pass);
 	string account_registration();
 	string account_login() const;
@@ -91,7 +92,10 @@ public:
 	void update_listings(int);
 	string buyout(int);
 	string add_listings();
+	void validate_option(int&);
+	void validate_input(double&);
 };
+
 
 
 #endif
