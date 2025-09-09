@@ -27,6 +27,7 @@ bool CredentialVerifier::error_message(char message)
 
 	case 'S':
 		std::cout << "\nUsername and password must be at least 6 characters long" << '\n';
+		return false;
 
 	case 'V':
 		//Username and password meet the constraints
