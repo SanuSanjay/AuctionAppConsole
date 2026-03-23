@@ -38,6 +38,15 @@ void AuctionApp::display_user_info() const
 	cout << '\n';
 }
 
+std::string TO_LOWER(std::string &str)
+{
+	for (char& ch : str)
+	{
+		ch = std::tolower(static_cast<unsigned char>(ch));
+	}
+	return str;
+}
+
 
 void AuctionApp::function_to_process()
 {
@@ -45,13 +54,14 @@ choice:
 	cout << "Enter the number corresponding to the action you want to perform" << '\n';
 	cout << "0. To print paintings listed for auction" << '\n';
 	cout << "1. Print your current account details" << '\n';
-	cout << "2. Add money to wallet" << '\n';
-	cout << "3. Bid on a painting" << '\n';
-	cout << "4. Buyout a painting" << '\n';
-	cout << "5. Add painting to cart" << '\n';
-	cout << "6. To buy paintings in the cart" << '\n';
-	cout << "7. List a painting" << '\n';
-	cout << "8. Exit the program\n" << '\n';
+	cout << "2. To filter the listings" << '\n';
+	cout << "3. Add money to wallet" << '\n';
+	cout << "4. Bid on a painting" << '\n';
+	cout << "5. Buyout a painting" << '\n';
+	cout << "6. Add painting to cart" << '\n';
+	cout << "7. To buy paintings in the cart" << '\n';
+	cout << "8. List a painting" << '\n';
+	cout << "9. Exit the program\n" << '\n';
 
 	int choice;
 	//Exception handling for invalid input
@@ -72,24 +82,27 @@ choice:
 		function_to_process();
 		break;
 	case 2:
-		add_money();
+		filter_option();
 		break;
 	case 3:
-		initial_bid(is_cart_item);
+		add_money();
 		break;
 	case 4:
-		buyout(is_cart_item);
+		initial_bid(is_cart_item);
 		break;
 	case 5:
-		add_to_cart();
+		buyout(is_cart_item);
 		break;
 	case 6:
-		buy_from_cart();
+		add_to_cart();
 		break;
 	case 7:
-		add_listings();
+		buy_from_cart();
 		break;
 	case 8:
+		add_listings();
+		break;
+	case 9:
 		cout << "Program terminated! " << '\n';
 		exit(0);
 	default:
@@ -99,9 +112,101 @@ choice:
 	}
 }
 
+void AuctionApp::filter_option()
+{
+	std::cout << "Enter price to filter by price " << '\n';
+	std::cout << "Enter name to filter by name " << '\n';
+	std::cout << '\n';
+
+	std::string choice;
+
+	std::cout << "Enter your choice : ";  getline(cin, choice);
+	
+	TO_LOWER(choice);
+
+	if (choice == "price") { filter_by_price(); }
+	else { filter_by_name(); }
+}
+
+void AuctionApp::filter_by_price()
+{
+	cout << "\nEnter 1 for ascending order" << '\n';
+	cout << "Enter 2 for descending order" << '\n';
+	std::cout << '\n';
+
+	int choice;
+	cout << "Choose order : "; std::cin >> choice;
+
+	for(int i = 0; i < paintings->painting_info_.size() - 1; i++)
+	{
+		for (int j = 0; j < paintings->painting_info_.size() - i - 1; j++)
+		{
+			if (choice == 1)
+			{
+				if (paintings->painting_info_[j].price > paintings->painting_info_[j + 1].price)
+				{
+					std::swap(paintings->painting_info_[j], paintings->painting_info_[j + 1]);
+				}
+			}
+			else if (choice == 2)
+			{
+				if (paintings->painting_info_[j].price < paintings->painting_info_[j + 1].price)
+				{
+					std::swap(paintings->painting_info_[j], paintings->painting_info_[j + 1]);
+				}
+			}
+			else
+			{
+				cout << "Invalid choice! Please re-enter your choice" << '\n';
+				filter_by_price();
+			}
+		}
+	}
+	cout << "The new filtered list : \n";
+	paintings->print_paintings();
+	function_to_process();
+}
+
+void  AuctionApp::filter_by_name()
+{
+	cout << "Enter 1 for ascending order" << '\n';
+	cout << "Enter 2 for descending order" << '\n';
+	int choice;
+	std::cin >> choice;
+
+	for (int i = 0; i < paintings->painting_info_.size() - 1; i++)
+	{
+		for (int j = 0; j < paintings->painting_info_.size() - i - 1; j++)
+		{
+			if (choice == 1)
+			{
+				if (paintings->painting_info_[j].artist_name > paintings->painting_info_[j + 1].artist_name)
+				{
+					std::swap(paintings->painting_info_[j], paintings->painting_info_[j + 1]);
+				}
+			}
+			else if (choice == 2)
+			{
+				if (paintings->painting_info_[j].artist_name < paintings->painting_info_[j + 1].artist_name)
+				{
+					std::swap(paintings->painting_info_[j], paintings->painting_info_[j + 1]);
+				}
+			}
+			else
+			{
+				cout << "Invalid choice! Please re-enter your choice" << '\n';
+				filter_by_name();
+			}
+		}
+	}
+	cout << "The new filtered list : \n";
+	paintings->print_paintings();
+	function_to_process();
+}
+
 void AuctionApp::add_money()
 {
-	cout << "Enter the amount you want to add to your wallet : ";
+	cout << "Enter the amount you want to add to your wallet \n ";
 	float amount;
 	validate_input(amount);
 	money_balance_ += amount;

@@ -34,6 +34,13 @@ struct PaintingsInfo
 	float price;
 };
 
+struct PaintingsInCart
+{
+	string painting_name_cart;
+	string artist_name_cart;
+	float price_cart;
+};
+
 struct UserOwnedPaintings
 {
 	string painting_name;
@@ -54,7 +61,7 @@ public:
 
 	//stores the information of the paintings bought by the user
 	vector<UserOwnedPaintings> user_owned_paintings_;
-
+	 
 	// To check if the painting exists when buying
 	vector<string> painting_in_cart_;
 
@@ -71,6 +78,17 @@ public:
 	void print_paintings();
 };
 
+//class FilterListings : ListedPaintings
+//{
+//public:
+//	ListedPaintings* paintings;
+//	vector<PaintingsInCart> painting_in_cart;
+//
+//	void filter_option();
+//	void filter_by_price();
+//	void filter_by_price();
+//};
+
 class AuctionApp : public UserAccDetails 
 {
 public:
@@ -79,6 +97,9 @@ public:
 
 	AuctionApp(RegisteredUserDetails* user, ListedPaintings* paintings): user_details(user), paintings(paintings) {}
 	void function_to_process();
+	void filter_option();
+	void filter_by_price();
+	void filter_by_name();
 	void display_user_info() const;
 	void add_money();
 	bool balance_check(float);

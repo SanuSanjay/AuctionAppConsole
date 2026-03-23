@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="AuctionApp.cpp" />
     <ClCompile Include="ExceptionHandler.cpp" />
+    <ClCompile Include="ItemFiltering.cpp" />
     <ClCompile Include="Paintings.cpp" />
     <ClCompile Include="RegAndLogin.cpp" />
     <ClCompile Include="Main.cpp" />

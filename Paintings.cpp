@@ -14,7 +14,7 @@
 	
 }
 
-void ListedPaintings::print_paintings() 
+void ListedPaintings::print_paintings()
 {
 	for (int i = 0; i < index; i++) 
 	{
